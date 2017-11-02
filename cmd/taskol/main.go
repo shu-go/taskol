@@ -86,9 +86,9 @@ func linkName(linkFormat, pabb, pname, tname string, tdate *time.Time) string {
 		result = strings.Replace(result, ":tdate-:", "", -1)
 		result = strings.Replace(result, ":tdate年月日:", "", -1)
 	} else {
-		result = strings.Replace(result, ":tdate:", fmt.Sprintf("%d%d%d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
-		result = strings.Replace(result, ":tdate-:", fmt.Sprintf("%d-%d-%d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
-		result = strings.Replace(result, ":tdate年月日:", fmt.Sprintf("%d年%d月%d日", tdate.Year(), tdate.Month(), tdate.Day()), -1)
+		result = strings.Replace(result, ":tdate:", fmt.Sprintf("%04d%02d%02d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
+		result = strings.Replace(result, ":tdate-:", fmt.Sprintf("%04d-%02d-%02d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
+		result = strings.Replace(result, ":tdate年月日:", fmt.Sprintf("%04d年%02d月%02d日", tdate.Year(), tdate.Month(), tdate.Day()), -1)
 	}
 	return result
 }
