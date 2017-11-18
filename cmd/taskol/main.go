@@ -118,7 +118,10 @@ func taskNameAndDate(dir string) (name string, date *time.Time) {
 			dt := time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.UTC)
 			date = &dt
 		} else {
-			name = c
+			if len(name) != 0 {
+				name += "_"
+			}
+			name += c
 		}
 	}
 
