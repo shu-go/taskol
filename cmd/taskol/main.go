@@ -9,62 +9,52 @@ import (
 	"strings"
 	"time"
 
-	"github.com/urfave/cli"
+	"bitbucket.org/shu/gli"
 )
 
-func main() {
-	app := cli.NewApp()
-	app.Name = "taskol"
-	app.Version = "0.1.0"
-	app.Flags = []cli.Flag{
-		cli.BoolFlag{Name: "verbose", Usage: "verbose output to stderr"},
-		cli.StringFlag{Name: "target", Usage: "target root directory"},
-		cli.StringFlag{Name: "link", Usage: "link files directory"},
-		cli.StringFlag{Name: "format", Value: ":tdate:_:pabb:_:tname:", Usage: "name format of each link file"},
-		cli.StringFlag{Name: "ignores", Value: "!#@", Usage: "prefix characters"},
-	}
-	app.Action = func(c *cli.Context) error {
-		targetDir := c.GlobalString("target")
-		linkDir := c.GlobalString("link")
-		linkFormat := c.GlobalString("format")
-		ignores := c.GlobalString("ignores")
-
-		if len(targetDir) == 0 {
-			fmt.Fprintf(os.Stderr, "target directory is missing.\n")
-			return fmt.Errorf("target directory is missing.")
-		}
-		if len(linkDir) == 0 {
-			fmt.Fprintf(os.Stderr, "link directory is missing.\n")
-			return fmt.Errorf("link directory is missing.")
-		}
-		if len(linkFormat) == 0 {
-			fmt.Fprintf(os.Stderr, "link format is missing.\n")
-			return fmt.Errorf("link format is missing.")
-		}
-
-		targetDir = strings.Replace(targetDir, `\`, `/`, -1)
-		linkDir = strings.Replace(linkDir, `\`, `/`, -1)
-
-		return run(targetDir, linkDir, linkFormat, ignores)
-	}
-	app.Run(os.Args)
+type globalCmd struct {
+	Verbose bool   `help:"verbose output to stderr"`
+	Target  string `help:"target root directory"`
+	Link    string `help:"link files directory"`
+	Format  string `default:":tdate:_:pabb:_:tname:"  help:"name format of each link file"`
+	Ignores string `default:"!#@"  help:"prefix characters"`
 }
 
-func run(targetDir, linkDir, linkFormat, ignores string) error {
-	for _, lnk := range listLinkFiles(linkDir, ignores) {
+func (c globalCmd) Before() error {
+	if len(c.Target) == 0 {
+		fmt.Fprintf(os.Stderr, "target directory is missing.\n")
+		return fmt.Errorf("target directory is missing.")
+	}
+	if len(c.Link) == 0 {
+		fmt.Fprintf(os.Stderr, "link directory is missing.\n")
+		return fmt.Errorf("link directory is missing.")
+	}
+	if len(c.Format) == 0 {
+		fmt.Fprintf(os.Stderr, "link format is missing.\n")
+		return fmt.Errorf("link format is missing.")
+	}
+
+	return nil
+}
+
+func (c globalCmd) Run() error {
+	targetDir := strings.Replace(c.Target, `\`, `/`, -1)
+	linkDir := strings.Replace(c.Link, `\`, `/`, -1)
+
+	for _, lnk := range listLinkFiles(linkDir, c.Ignores) {
 		if err := os.Remove(lnk); err != nil {
 			println(err.Error())
 		}
 	}
 
-	for _, p := range listProjectDirs(targetDir, ignores) {
+	for _, p := range listProjectDirs(targetDir, c.Ignores) {
 		pabb, pname := projectAbbAndName(p)
 		println(pabb, pname)
 
-		for _, t := range listTaskDirs(p, ignores) {
+		for _, t := range listTaskDirs(p, c.Ignores) {
 			tname, tdate := taskNameAndDate(t)
 
-			lnkName := linkName(linkFormat, pabb, pname, tname, tdate)
+			lnkName := linkName(c.Format, pabb, pname, tname, tdate)
 			println(t, "=>", lnkName)
 
 			if err := createShortcut(t, linkDir+"/"+lnkName+".lnk"); err != nil {
@@ -74,6 +64,16 @@ func run(targetDir, linkDir, linkFormat, ignores string) error {
 	}
 
 	return nil
+}
+
+func main() {
+	app := gli.New(&globalCmd{})
+	app.Name = "taskol"
+	app.Version = "0.2.0"
+	err := app.Run(os.Args)
+	if err != nil {
+		os.Exit(-1)
+	}
 }
 
 func linkName(linkFormat, pabb, pname, tname string, tdate *time.Time) string {
