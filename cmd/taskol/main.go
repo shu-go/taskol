@@ -116,6 +116,9 @@ func taskNameAndDate(dir string) (name string, date *time.Time) {
 
 		if subs := datePtn.FindStringSubmatch(c); len(subs) >= 4 {
 			y, _ := strconv.Atoi(subs[1])
+			if y < 100 {
+				y += 2000
+			}
 			m, _ := strconv.Atoi(subs[2])
 			d, _ := strconv.Atoi(subs[3])
 			dt := time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.UTC)
