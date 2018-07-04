@@ -14,25 +14,22 @@ import (
 )
 
 type globalCmd struct {
-	Verbose bool   `help:"verbose output to stderr"`
-	Target  string `help:"target root directory"`
-	Link    string `help:"link files directory"`
-	Format  string `default:":tdate:_:pabb:_:tname:"  help:"name format of each link file"`
-	Ignores string `default:"!#@"  help:"prefix characters"`
+	Verbose bool   `help:"標準エラーに追加情報を出力します"`
+	Target  string `help:"対象のルートディレクトリーを指定します"`
+	Link    string `help:"ショートカットを作成するディレクトリーを指定します"`
+	Format  string `default:":tdate:_:pabb:_:tname:"  help:"作成されるショートカットのファイル名規則を指定します"`
+	Ignores string `default:"!#@"  help:"走査対象外のディレクトリー名のプレフィックスを指定します"`
 }
 
 func (c globalCmd) Before() error {
 	if len(c.Target) == 0 {
-		fmt.Fprintf(os.Stderr, "target directory is missing.\n")
-		return fmt.Errorf("target directory is missing.")
+		return fmt.Errorf("対象のディレクトリが指定されていません --target")
 	}
 	if len(c.Link) == 0 {
-		fmt.Fprintf(os.Stderr, "link directory is missing.\n")
-		return fmt.Errorf("link directory is missing.")
+		return fmt.Errorf("ショートカット作成先のディレクトリが指定されていません --link")
 	}
 	if len(c.Format) == 0 {
-		fmt.Fprintf(os.Stderr, "link format is missing.\n")
-		return fmt.Errorf("link format is missing.")
+		return fmt.Errorf("ショートカットのファイル名規則が空白になっています --format")
 	}
 
 	return nil
@@ -42,12 +39,14 @@ func (c globalCmd) Run() error {
 	targetDir := strings.Replace(c.Target, `\`, `/`, -1)
 	linkDir := strings.Replace(c.Link, `\`, `/`, -1)
 
+	// 既存のショートカットを全て削除。後で作り直すので。
 	for _, lnk := range listLinkFiles(linkDir, c.Ignores) {
 		if err := os.Remove(lnk); err != nil {
 			println(err.Error())
 		}
 	}
 
+	// ショートカット作成対象を格納しているディレクトリ
 	for _, p := range listProjectDirs(targetDir, c.Ignores) {
 		pabb, pname := projectAbbAndName(p)
 		println(pabb, pname)
@@ -71,6 +70,9 @@ func main() {
 	app := gli.New(&globalCmd{})
 	app.Name = "taskol"
 	app.Version = "0.2.0"
+	app.Copyright = "(C) 2018 Shuhei Kubota"
+	app.Desc = "仕掛中の作業フォルダへのショートカットを作るツール"
+	app.Usage = `taskol --target=/path/to/work/root --link=/path/to/link/root`
 	err := app.Run(os.Args)
 	if err != nil {
 		os.Exit(-1)
