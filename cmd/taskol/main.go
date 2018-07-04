@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"bitbucket.org/shu/clise"
 	"bitbucket.org/shu/gli"
 )
 
@@ -184,11 +185,12 @@ func listLinkFiles(baseDir, ignores string) []string {
 		return nil
 	}
 
-	return filter(
-		files,
+	clise.Filter(
+		&files,
 		func(i int) bool { return !isDir(files[i]) },
 		func(i int) bool { return !shouldBeIgnored(files[i], ignores) },
 	)
+	return files
 }
 
 func listProjectDirs(baseDir, ignores string) []string {
@@ -197,11 +199,12 @@ func listProjectDirs(baseDir, ignores string) []string {
 		return nil
 	}
 
-	return filter(
-		dirs,
+	clise.Filter(
+		&dirs,
 		func(i int) bool { return isDir(dirs[i]) },
 		func(i int) bool { return !shouldBeIgnored(dirs[i], ignores) },
 	)
+	return dirs
 }
 
 func listTaskDirs(prjDir, ignores string) []string {
@@ -210,9 +213,10 @@ func listTaskDirs(prjDir, ignores string) []string {
 		return nil
 	}
 
-	return filter(
-		dirs,
+	clise.Filter(
+		&dirs,
 		func(i int) bool { return isDir(dirs[i]) },
 		func(i int) bool { return !shouldBeIgnored(dirs[i], ignores) },
 	)
+	return dirs
 }
