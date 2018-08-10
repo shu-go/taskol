@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"bitbucket.org/shu/clise"
-	"bitbucket.org/shu/gli"
+	"bitbucket.org/shu_go/clise"
+	"bitbucket.org/shu_go/gli"
 )
 
 type globalCmd struct {
