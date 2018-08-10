@@ -67,7 +67,7 @@ func (c globalCmd) Run() error {
 }
 
 func main() {
-	app := gli.New(&globalCmd{})
+	app := gli.NewWith(&globalCmd{})
 	app.Name = "taskol"
 	app.Version = "0.2.0"
 	app.Copyright = "(C) 2018 Shuhei Kubota"
