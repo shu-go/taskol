@@ -11,6 +11,7 @@ import (
 
 	"github.com/shu-go/clise"
 	"github.com/shu-go/gli/v2"
+	"github.com/shu-go/shortcut"
 )
 
 type globalCmd struct {
@@ -57,7 +58,8 @@ func (c globalCmd) Run() error {
 			lnkName := linkName(c.Format, pabb, pname, tname, tdate)
 			println(t, "=>", lnkName)
 
-			if err := createShortcut(t, linkDir+"/"+lnkName+".lnk"); err != nil {
+			s := shortcut.New(t)
+			if err := s.Save(linkDir + "/" + lnkName + ".lnk"); err != nil {
 				println(err.Error())
 			}
 		}

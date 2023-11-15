@@ -1,3 +1,4 @@
+github.com/go-ole/go-ole v1.2.4/go.mod h1:XCwSNxSkXRo4vlyPy93sltvi/qJq0jqQhjqQNIwKuxM=
 github.com/go-ole/go-ole v1.3.0 h1:Dt6ye7+vXGIKZ7Xtk4s6/xVdGDQynvom7xCFEdWr6uE=
 github.com/go-ole/go-ole v1.3.0/go.mod h1:5LS6F96DhAwUc7C+1HLexzMXY1xGRSryjyPPKW6zv78=
 github.com/mattn/go-runewidth v0.0.15 h1:UNAjwbU9l54TA3KzvqLGxwWjHmMgBUVhBiTjelZgg3U=
@@ -13,8 +14,11 @@ github.com/shu-go/clise v0.0.0-20190822023516-79849fb81cfe h1:J0rPYz8tjtuwPPbVhI
 github.com/shu-go/clise v0.0.0-20190822023516-79849fb81cfe/go.mod h1:VLiMEzXMBozBLD37i3id3qPflaupus48v/979ipQ43s=
 github.com/shu-go/gli/v2 v2.0.1 h1:XA1QSfUdpWW1FIqLjuXo+Gs/IjEy+uviuxKQ45IRYC8=
 github.com/shu-go/gli/v2 v2.0.1/go.mod h1:pSC0XKb69hEarQpiQU74CNiKpcS7a90iJAMUGL3SinQ=
+github.com/shu-go/gotwant v0.0.0-20190920074605-851c8677556b/go.mod h1:FZepfqvib0mXjHiaQPTv0RUD5QMpMA/FHLfBQjZRRQg=
 github.com/shu-go/gotwant v0.0.0-20190920074605-b4f19c0bac91 h1:nwDc3kHbf9scf1UZIWiWw5tZF3Z4yOJAMjNN+kYXJwE=
 github.com/shu-go/gotwant v0.0.0-20190920074605-b4f19c0bac91/go.mod h1:FZepfqvib0mXjHiaQPTv0RUD5QMpMA/FHLfBQjZRRQg=
+github.com/shu-go/shortcut v0.0.0-20191024081707-3d9452e1f9e6 h1:YXdYBFolLF7B5JoCBVnnzgooFcMpUpyWolzORSer0wQ=
+github.com/shu-go/shortcut v0.0.0-20191024081707-3d9452e1f9e6/go.mod h1:4yjiyfvkHtjGLzAyHOfECrlrIOBAYiu54PeRx5/EsXc=
 golang.org/x/sys v0.1.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.14.0 h1:Vz7Qs629MkJkGyHxUlRHizWJRG2j8fbQKjELVSNhy7Q=
 golang.org/x/sys v0.14.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
