@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/go-ole/go-ole v1.3.0
 	github.com/shu-go/clise v0.0.0-20190822023516-79849fb81cfe
-	github.com/shu-go/gli v1.5.7
+	github.com/shu-go/gli/v2 v2.0.1
 )
 
 require (

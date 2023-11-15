@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/shu-go/clise"
-	"github.com/shu-go/gli"
+	"github.com/shu-go/gli/v2"
 )
 
 type globalCmd struct {
