@@ -1,6 +1,6 @@
 module github.com/shu-go/taskol
 
-go 1.21
+go 1.23
 
 require (
 	github.com/shu-go/clise v0.0.0-20190822023516-79849fb81cfe
