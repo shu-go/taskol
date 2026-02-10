@@ -15,6 +15,8 @@ github.com/shu-go/gli/v2 v2.3.0/go.mod h1:zx0BtgXdLVRSaQUla1Q5XLfPHyyA0HLipeD81A
 github.com/shu-go/gotwant v0.0.0-20190920074605-851c8677556b/go.mod h1:FZepfqvib0mXjHiaQPTv0RUD5QMpMA/FHLfBQjZRRQg=
 github.com/shu-go/gotwant v0.0.0-20190920074605-b4f19c0bac91 h1:nwDc3kHbf9scf1UZIWiWw5tZF3Z4yOJAMjNN+kYXJwE=
 github.com/shu-go/gotwant v0.0.0-20190920074605-b4f19c0bac91/go.mod h1:FZepfqvib0mXjHiaQPTv0RUD5QMpMA/FHLfBQjZRRQg=
+github.com/shu-go/retry v0.0.0-20170311144019-2015ca8852ea h1:njJXzrC8mXDIUgdehmzAG0QIwJ6fWN23++hDjFO1ZNo=
+github.com/shu-go/retry v0.0.0-20170311144019-2015ca8852ea/go.mod h1:sMNqJdPyuvoe4mCcAX+pANldvv06TrzpPEp4rXheuJ8=
 github.com/shu-go/shortcut v0.0.0-20231225032928-bbbbd4d550e1 h1:oW7lrn7GNXXI6DGZTmxdOYy5/5gEmIJ6D7cZ7UsWVv8=
 github.com/shu-go/shortcut v0.0.0-20231225032928-bbbbd4d550e1/go.mod h1:ME2sxSlXKDt26pyci1fx9pm0KC/ao3TsfFrT81C7Nqw=
 golang.org/x/sys v0.1.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

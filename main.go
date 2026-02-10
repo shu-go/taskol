@@ -11,6 +11,7 @@ import (
 
 	"github.com/shu-go/clise"
 	"github.com/shu-go/gli/v2"
+	"github.com/shu-go/retry"
 	"github.com/shu-go/shortcut"
 )
 
@@ -58,10 +59,17 @@ func (c globalCmd) Run() error {
 			lnkName := linkName(c.Format, pabb, pname, tname, tdate)
 			println(t, "=>", lnkName)
 
-			s := shortcut.New(t)
-			if err := s.Save(linkDir + "/" + lnkName + ".lnk"); err != nil {
-				println(err.Error())
-			}
+			retry.Count(3, func() (done bool) {
+				defer func() {
+					done = false
+				}()
+				s := shortcut.New(t)
+				if err := s.Save(linkDir + "/" + lnkName + ".lnk"); err != nil {
+					println(err.Error())
+					return false
+				}
+				return true
+			})
 		}
 	}
 
