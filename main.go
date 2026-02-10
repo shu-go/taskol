@@ -38,8 +38,8 @@ func (c globalCmd) Before() error {
 }
 
 func (c globalCmd) Run() error {
-	targetDir := strings.Replace(c.Target, `\`, `/`, -1)
-	linkDir := strings.Replace(c.Link, `\`, `/`, -1)
+	targetDir := strings.ReplaceAll(c.Target, `\`, `/`)
+	linkDir := strings.ReplaceAll(c.Link, `\`, `/`)
 
 	// 既存のショートカットを全て削除。後で作り直すので。
 	for _, lnk := range listLinkFiles(linkDir, c.Ignores) {
@@ -94,17 +94,17 @@ func main() {
 
 func linkName(linkFormat, pabb, pname, tname string, tdate *time.Time) string {
 	result := linkFormat
-	result = strings.Replace(result, ":pabb:", pabb, -1)
-	result = strings.Replace(result, ":pname:", pname, -1)
-	result = strings.Replace(result, ":tname:", tname, -1)
+	result = strings.ReplaceAll(result, ":pabb:", pabb)
+	result = strings.ReplaceAll(result, ":pname:", pname)
+	result = strings.ReplaceAll(result, ":tname:", tname)
 	if tdate == nil {
-		result = strings.Replace(result, ":tdate:", "", -1)
-		result = strings.Replace(result, ":tdate-:", "", -1)
-		result = strings.Replace(result, ":tdate年月日:", "", -1)
+		result = strings.ReplaceAll(result, ":tdate:", "")
+		result = strings.ReplaceAll(result, ":tdate-:", "")
+		result = strings.ReplaceAll(result, ":tdate年月日:", "")
 	} else {
-		result = strings.Replace(result, ":tdate:", fmt.Sprintf("%04d%02d%02d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
-		result = strings.Replace(result, ":tdate-:", fmt.Sprintf("%04d-%02d-%02d", tdate.Year(), tdate.Month(), tdate.Day()), -1)
-		result = strings.Replace(result, ":tdate年月日:", fmt.Sprintf("%04d年%02d月%02d日", tdate.Year(), tdate.Month(), tdate.Day()), -1)
+		result = strings.ReplaceAll(result, ":tdate:", fmt.Sprintf("%04d%02d%02d", tdate.Year(), tdate.Month(), tdate.Day()))
+		result = strings.ReplaceAll(result, ":tdate-:", fmt.Sprintf("%04d-%02d-%02d", tdate.Year(), tdate.Month(), tdate.Day()))
+		result = strings.ReplaceAll(result, ":tdate年月日:", fmt.Sprintf("%04d年%02d月%02d日", tdate.Year(), tdate.Month(), tdate.Day()))
 	}
 	return result
 }
@@ -116,7 +116,7 @@ func taskNameAndDate(dir string) (name string, date *time.Time) {
 	base := filepath.Base(dir)
 	var withoutPrefix string
 	if strings.HasPrefix(base, "t_") {
-		withoutPrefix = base[2:len(base)]
+		withoutPrefix = base[2:]
 	} else {
 		withoutPrefix = base
 	}
@@ -185,14 +185,16 @@ func isDir(p string) bool {
 
 func shouldBeIgnored(p, ignores string) bool {
 	base := filepath.Base(p)
+	if len(base) == 0 {
+		return false
+	}
+
 	// compare first runes
-	for _, b := range base {
-		for _, c := range ignores {
-			if b == c {
-				return true
-			}
+	b := []rune(base)[0]
+	for _, c := range ignores {
+		if b == c {
+			return true
 		}
-		break
 	}
 	return false
 }
