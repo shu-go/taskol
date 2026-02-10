@@ -76,10 +76,13 @@ func (c globalCmd) Run() error {
 	return nil
 }
 
+// Version is app version
+var Version string
+
 func main() {
 	app := gli.NewWith(&globalCmd{})
 	app.Name = "taskol"
-	app.Version = "0.2.0"
+	app.Version = Version
 	app.Copyright = "(C) 2018 Shuhei Kubota"
 	app.Desc = "仕掛中の作業フォルダへのショートカットを作るツール"
 	app.Usage = `taskol --target=/path/to/work/root --link=/path/to/link/root`
